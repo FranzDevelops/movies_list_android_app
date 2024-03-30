@@ -1,6 +1,8 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -49,8 +51,35 @@ android {
     }
 }
 
-dependencies {
+kapt {
+    correctErrorTypes = true
+}
 
+dependencies {
+    val lifecycle_version = "2.7.0"
+    val retrofit_version = "2.11.0"
+    val dagger_hilt_version = "2.51.1"
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
+    // Converter Gson
+    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
+    // Image picker
+    implementation("com.squareup.picasso:picasso:2.8")
+
+    // Dagger Hilt
+    implementation("com.google.dagger:hilt-android:$dagger_hilt_version")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    kapt("com.google.dagger:hilt-android-compiler:$dagger_hilt_version")
+
+    // Core
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
