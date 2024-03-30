@@ -2,7 +2,7 @@ package com.example.movieslistapp.features.movelist.domain.model
 
 import com.example.movieslistapp.features.movelist.data.model.PopularMoviesResponse
 
-data class PopularMoviesList(
+data class PopularMovie(
     val id: Int,
     val title: String,
     val overview: String,
@@ -11,4 +11,4 @@ data class PopularMoviesList(
 )
 
 fun PopularMoviesResponse.Movie.toDomain() =
-    PopularMoviesList(id, title, overview, releaseDate, posterPath)
+    PopularMovie(id, title, overview, releaseDate, posterPath)

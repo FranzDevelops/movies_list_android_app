@@ -15,6 +15,6 @@ interface PopularMoviesApiClient {
         @Query("language") language: String = "en-US",
         @Query("page") page: Int = 1,
         @Query("sort_by") sortBy: String = "popularity.desc",
-        @Header("Authorization") bearerToken: String = Constants.API_KEY
+        @Header("Authorization") bearerToken: String = "Bearer " + Constants.API_KEY
     ): Response<PopularMoviesResponse>
 }
