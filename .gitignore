@@ -1,0 +1,32 @@
+# Compiled binary files
+*.class
+*.jar
+*.war
+*.ear
+
+# Generated Gradle files
+.gradle/
+build/
+out/
+
+# Local configuration file (e.g., ProGuard)
+proguard-rules.pro
+
+# IntelliJ IDEA project files
+*.iml
+/.idea/
+.idea/
+
+# Android Studio specific files
+/local.properties
+/captures/
+.externalNativeBuild/
+.cxx/
+.DS_Store
+
+# Compiled APK files
+*.apk
+
+# Logs and crash reports
+*.log
+*.crash
