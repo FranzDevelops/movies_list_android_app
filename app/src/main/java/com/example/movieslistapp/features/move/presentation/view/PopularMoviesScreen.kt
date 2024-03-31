@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.movieslistapp.di.FirebaseModule
 import com.example.movieslistapp.navigation.AppScreens
 import com.example.movieslistapp.utils.Constants
 import com.google.firebase.auth.FirebaseAuth
@@ -51,7 +52,7 @@ fun PopularMoviesScreen(
     viewModel: PopularMoviesViewModel = hiltViewModel(),
     navController: NavController
 ) {
-    val firebaseAuth = FirebaseAuth.getInstance()
+    val firebaseAuth = FirebaseModule.providerFirebaseAuthInstance()
 
     val movies: List<PopularMovie> by viewModel.popularMoviesList.observeAsState(initial = emptyList())
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)

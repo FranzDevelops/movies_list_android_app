@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.movieslistapp.di.FirebaseModule
 import com.example.movieslistapp.features.authentication.AuthenticationScreen
 import com.example.movieslistapp.features.move.presentation.view.MovieDetailsScreen
 import com.example.movieslistapp.features.move.presentation.view.PopularMoviesScreen
@@ -13,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-    val firebaseAuth = FirebaseAuth.getInstance()
+    val firebaseAuth = FirebaseModule.providerFirebaseAuthInstance()
 
     // Observe Firebase Auth state changes
     LaunchedEffect(key1 = Unit) {

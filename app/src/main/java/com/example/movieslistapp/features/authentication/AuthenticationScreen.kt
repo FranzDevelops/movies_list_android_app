@@ -24,12 +24,13 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.movieslistapp.navigation.AppScreens
 import kotlinx.coroutines.launch
 
 @Composable
-fun AuthenticationScreen(navController: NavController, viewModel: AuthenticationViewModel = viewModel()) {
+fun AuthenticationScreen(navController: NavController, viewModel: AuthenticationViewModel = hiltViewModel()) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
