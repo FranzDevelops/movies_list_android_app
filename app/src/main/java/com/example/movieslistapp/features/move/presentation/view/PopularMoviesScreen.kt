@@ -13,7 +13,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,6 +40,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.movieslistapp.navigation.AppScreens
 import com.example.movieslistapp.utils.Constants
+import com.google.firebase.auth.FirebaseAuth
 
 
 private fun navigateToDetails(movieId: Int, navController: NavController) {
@@ -46,6 +51,8 @@ fun PopularMoviesScreen(
     viewModel: PopularMoviesViewModel = hiltViewModel(),
     navController: NavController
 ) {
+    val firebaseAuth = FirebaseAuth.getInstance()
+
     val movies: List<PopularMovie> by viewModel.popularMoviesList.observeAsState(initial = emptyList())
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
 
@@ -54,7 +61,6 @@ fun PopularMoviesScreen(
     }
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
     ) {
         Column(
@@ -72,6 +78,22 @@ fun PopularMoviesScreen(
                     onLoadMore = { viewModel.loadMoreMovies() },
                     navController
                 )
+            }
+        }
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomEnd
+        ) {
+            FloatingActionButton(
+                onClick = {
+                    // Logout when the button is clicked
+                    firebaseAuth.signOut()
+                },
+                modifier = Modifier
+                    .padding(16.dp)
+                    .align(Alignment.BottomEnd)
+            ) {
+                Icon(Icons.Default.Lock, contentDescription = "Logout")
             }
         }
     }
