@@ -1,9 +1,16 @@
 package com.example.movieslistapp.features.move.presentation.view
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -17,10 +24,21 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.movieslistapp.utils.Constants
 
 @Composable
-fun PopularMoviesScreen(viewModel: PopularMoviesViewModel = hiltViewModel()) {
+fun PopularMoviesScreen(
+    viewModel: PopularMoviesViewModel = hiltViewModel(),
+    navController: NavController
+) {
     val movies: List<PopularMovie> by viewModel.popularMoviesList.observeAsState(initial = emptyList())
     val isLoading: Boolean by viewModel.isLoading.observeAsState(initial = false)
 
@@ -42,8 +60,60 @@ fun PopularMoviesScreen(viewModel: PopularMoviesViewModel = hiltViewModel()) {
             if (isLoading && movies.isEmpty()) {
                 CircularProgressIndicator()
             } else {
-                Text(text = movies.toString())
+                MoviesList(movies)
             }
         }
+    }
+}
+
+@Composable
+fun MoviesList(movies: List<PopularMovie>) {
+    // val lazyListState = rememberLazyListState()
+
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
+    ) {
+        items(movies.size) { index ->
+            MovieItem(movies[index])
+        }
+    }
+}
+
+@Composable
+fun MovieItem(movie: PopularMovie) {
+    Column(
+        modifier = Modifier
+            .background(MaterialTheme.colorScheme.onPrimary)
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        AsyncImage(
+            ImageRequest.Builder(LocalContext.current)
+                .data(Constants.IMAGE_URL + movie.posterPath)
+                .crossfade(true)
+                .build(),
+            contentDescription = "Movie Poster",
+            contentScale = ContentScale.FillWidth
+        )
+
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .height(30.dp)
+        ) {
+            Text(
+                text = movie.title,
+                style = MaterialTheme.typography.bodyLarge,
+                color = Color.Black,
+                maxLines = 1, // Limiting the text to a single line
+                overflow = TextOverflow.Ellipsis
+            )
+        }
+        Spacer(modifier = Modifier.height(1.dp))
+        Text(
+            text = movie.releaseDate,
+            style = MaterialTheme.typography.bodySmall,
+            color = Color.Gray
+        )
     }
 }

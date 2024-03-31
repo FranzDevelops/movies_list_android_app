@@ -82,7 +82,7 @@ dependencies {
     // Converter Gson
     implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
     // Image picker
-    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("io.coil-kt:coil-compose:2.6.0")
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:$dagger_hilt_version")
