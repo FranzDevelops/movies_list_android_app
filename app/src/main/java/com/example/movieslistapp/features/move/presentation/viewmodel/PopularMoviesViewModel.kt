@@ -20,15 +20,27 @@ class PopularMoviesViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun onCreate(page: Int = 1) {
-        viewModelScope.launch {
-            _isLoading.postValue(true)
-            val result = fetchPopularMovies(page)
+    private var currentPage = 1
 
+    fun onCreate() {
+        loadMoviesForPage(currentPage)
+    }
+
+    fun loadMoreMovies() {
+        currentPage++
+        loadMoviesForPage(currentPage)
+    }
+
+    private fun loadMoviesForPage(page: Int, wait: Boolean = false) {
+        _isLoading.postValue(true)
+        viewModelScope.launch {
+            val result = fetchPopularMovies(page)
             if (!result.isNullOrEmpty()) {
-                _popularMovieList.postValue(result)
-                _isLoading.postValue(false)
+                val currentList = _popularMovieList.value.orEmpty().toMutableList()
+                currentList.addAll(result)
+                _popularMovieList.postValue(currentList)
             }
+            _isLoading.postValue(false)
         }
     }
 }

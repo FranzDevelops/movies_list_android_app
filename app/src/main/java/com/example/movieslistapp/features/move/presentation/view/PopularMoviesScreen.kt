@@ -1,6 +1,7 @@
 package com.example.movieslistapp.features.move.presentation.view
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,8 +34,13 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.example.movieslistapp.navigation.AppScreens
 import com.example.movieslistapp.utils.Constants
 
+
+private fun navigateToDetails(movieId: Int, navController: NavController) {
+    navController.navigate("details_screen_route/$movieId")
+}
 @Composable
 fun PopularMoviesScreen(
     viewModel: PopularMoviesViewModel = hiltViewModel(),
@@ -60,60 +67,74 @@ fun PopularMoviesScreen(
             if (isLoading && movies.isEmpty()) {
                 CircularProgressIndicator()
             } else {
-                MoviesList(movies)
+                MoviesList(
+                    movies,
+                    onLoadMore = { viewModel.loadMoreMovies() },
+                    navController
+                )
             }
         }
     }
 }
 
 @Composable
-fun MoviesList(movies: List<PopularMovie>) {
-    // val lazyListState = rememberLazyListState()
+fun MoviesList(movies: List<PopularMovie>, onLoadMore: () -> Unit, navController: NavController) {
+    val lazyListState = rememberLazyGridState()
 
     LazyVerticalGrid(
+        state = lazyListState,
         columns = GridCells.Fixed(2),
+        modifier = Modifier.fillMaxSize()
     ) {
         items(movies.size) { index ->
-            MovieItem(movies[index])
+            MovieItem(movie = movies[index], navController)
+            if (index == movies.size - 2) {
+                onLoadMore()
+            }
         }
     }
 }
 
 @Composable
-fun MovieItem(movie: PopularMovie) {
-    Column(
+fun MovieItem(movie: PopularMovie, navController: NavController) {
+    Box(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.onPrimary)
-            .fillMaxWidth()
-            .padding(16.dp)
+            .clickable { navController.navigate("${AppScreens.MovieDetailsScreen.route}/${movie.id}") }
     ) {
-        AsyncImage(
-            ImageRequest.Builder(LocalContext.current)
-                .data(Constants.IMAGE_URL + movie.posterPath)
-                .crossfade(true)
-                .build(),
-            contentDescription = "Movie Poster",
-            contentScale = ContentScale.FillWidth
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-        Box(
+        Column(
             modifier = Modifier
-                .height(30.dp)
+                .background(MaterialTheme.colorScheme.onPrimary)
+                .fillMaxWidth()
+                .padding(16.dp)
         ) {
+            AsyncImage(
+                ImageRequest.Builder(LocalContext.current)
+                    .data(Constants.IMAGE_URL + movie.posterPath)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = "Movie Poster",
+                contentScale = ContentScale.FillWidth
+            )
+
+            Spacer(modifier = Modifier.height(8.dp))
+            Box(
+                modifier = Modifier
+                    .height(30.dp)
+            ) {
+                Text(
+                    text = movie.title,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = Color.Black,
+                    maxLines = 1, // Limiting the text to a single line
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+            Spacer(modifier = Modifier.height(1.dp))
             Text(
-                text = movie.title,
-                style = MaterialTheme.typography.bodyLarge,
-                color = Color.Black,
-                maxLines = 1, // Limiting the text to a single line
-                overflow = TextOverflow.Ellipsis
+                text = movie.releaseDate,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.Gray
             )
         }
-        Spacer(modifier = Modifier.height(1.dp))
-        Text(
-            text = movie.releaseDate,
-            style = MaterialTheme.typography.bodySmall,
-            color = Color.Gray
-        )
     }
 }
