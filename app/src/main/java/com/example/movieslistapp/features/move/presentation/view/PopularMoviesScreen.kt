@@ -1,4 +1,4 @@
-package com.example.movieslistapp.features.movelist.presentation.view
+package com.example.movieslistapp.features.move.presentation.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,8 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.movieslistapp.features.movelist.domain.model.PopularMovie
-import com.example.movieslistapp.features.movelist.presentation.viewmodel.PopularMoviesViewModel
+import com.example.movieslistapp.features.move.domain.model.PopularMovie
+import com.example.movieslistapp.features.move.presentation.viewmodel.PopularMoviesViewModel
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment

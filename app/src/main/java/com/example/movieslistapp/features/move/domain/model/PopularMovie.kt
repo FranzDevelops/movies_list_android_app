@@ -1,6 +1,6 @@
-package com.example.movieslistapp.features.movelist.domain.model
+package com.example.movieslistapp.features.move.domain.model
 
-import com.example.movieslistapp.features.movelist.data.model.PopularMoviesResponse
+import com.example.movieslistapp.features.move.data.model.PopularMoviesResponse
 
 data class PopularMovie(
     val id: Int,
@@ -10,5 +10,5 @@ data class PopularMovie(
     val posterPath: String
 )
 
-fun PopularMoviesResponse.Movie.toDomain() =
+fun PopularMoviesResponse.Movie.toDomainMovies() =
     PopularMovie(id, title, overview, releaseDate, posterPath)

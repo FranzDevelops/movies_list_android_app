@@ -1,4 +1,4 @@
-package com.example.movieslistapp.features.movelist.data.model
+package com.example.movieslistapp.features.move.data.model
 
 import com.google.gson.annotations.SerializedName
 

@@ -1,11 +1,11 @@
-package com.example.movieslistapp.features.movelist.presentation.viewmodel
+package com.example.movieslistapp.features.move.presentation.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.movieslistapp.features.movelist.domain.model.PopularMovie
-import com.example.movieslistapp.features.movelist.domain.usecase.FetchPopularMovies
+import com.example.movieslistapp.features.move.domain.model.PopularMovie
+import com.example.movieslistapp.features.move.domain.usecase.FetchPopularMovies
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,10 +20,10 @@ class PopularMoviesViewModel @Inject constructor(
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    fun onCreate() {
+    fun onCreate(page: Int = 1) {
         viewModelScope.launch {
             _isLoading.postValue(true)
-            val result = fetchPopularMovies()
+            val result = fetchPopularMovies(page)
 
             if (!result.isNullOrEmpty()) {
                 _popularMovieList.postValue(result)

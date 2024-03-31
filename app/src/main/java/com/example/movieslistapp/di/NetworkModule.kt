@@ -1,6 +1,6 @@
 package com.example.movieslistapp.di
 
-import com.example.movieslistapp.features.movelist.data.network.PopularMoviesApiClient
+import com.example.movieslistapp.features.move.data.network.MoviesApiClient
 import com.example.movieslistapp.utils.Constants
 import dagger.Module
 import dagger.Provides
@@ -25,7 +25,7 @@ object NetworkModule {
 
     @Singleton
     @Provides
-    fun provideQuoteApiClient(retrofit: Retrofit):PopularMoviesApiClient{
-        return retrofit.create(PopularMoviesApiClient::class.java)
+    fun provideQuoteApiClient(retrofit: Retrofit): MoviesApiClient {
+        return retrofit.create(MoviesApiClient::class.java)
     }
 }
